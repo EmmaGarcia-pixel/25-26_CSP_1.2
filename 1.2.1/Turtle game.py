@@ -23,7 +23,35 @@ meowl.color(spot_color)
 meowl.shapesize(3)
 meowl.penup()
 
+# Timer
+timer = 30
+counter_interval = 1000   #1000 represents 1 second
+timer_up = False
+
+# Turtle to write the countdown
+counter =  trtl.Turtle()
+counter.hideturtle()
+counter.penup()
+
 #------game functions-------
+# Set starting location
+counter.goto(-400, 325)
+
+# Write the timer
+def countdown():
+  global timer, timer_up
+  counter.clear()
+  # if counter finishes write "Times Up."
+  if timer <= 0:
+    counter.write("Time's Up", font=font_setup)
+    timer_up = True
+
+  # If not then write Timer: (the amount of time left)
+  else:
+    counter.write("Timer: " + str(timer), font=font_setup)
+    timer -= 1
+    counter.getscreen().ontimer(countdown, counter_interval)
+
 # Draw the box for the score
 def scoreBox():
     # Set up the starting location and pendown
@@ -70,4 +98,5 @@ meowl.onclick(spot_clicked)
 
 scoreBox()
 wn = trtl.Screen()
+wn.ontimer(countdown, counter_interval)
 wn.mainloop()
