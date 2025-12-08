@@ -46,6 +46,15 @@ def countdown():
     counter.write("Time's Up", font=font_setup)
     timer_up = True
 
+'''
+    
+      if score > 20:
+        score_writer.write("You win!")
+      else:
+        score_writer.write("You lose!")
+        
+'''
+
   # If not then write Timer: (the amount of time left)
   else:
     counter.write("Timer: " + str(timer), font=font_setup)
