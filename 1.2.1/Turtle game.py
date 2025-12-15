@@ -1,14 +1,24 @@
 #-----import statements-----
 import turtle as trtl
 import random as rand
+import leaderboard as lb
 
 #-----game configuration----
 spot_color = "lavender"
 score = 0
 font_setup = ("Arial", 20, "normal")
+timer = 30
+counter_interval = 1000   #1000 represents 1 second
+timer_up = False
 
 #-----initialize turtle-----
-# Turtle to draw the score
+leaderboard_file_name = "a122_leaderboard.txt"
+player_name = input("What is your name?")
+
+# Score turtle
+counter =  trtl.Turtle()
+counter.hideturtle()
+counter.penup()
 score_writer = trtl.Turtle()
 score_writer.penup()
 
@@ -23,16 +33,6 @@ meowl.color(spot_color)
 meowl.shapesize(3)
 meowl.penup()
 
-# Timer
-timer = 30
-counter_interval = 1000   #1000 represents 1 second
-timer_up = False
-
-# Turtle to write the countdown
-counter =  trtl.Turtle()
-counter.hideturtle()
-counter.penup()
-
 #------game functions-------
 # Set starting location
 counter.goto(-400, 325)
@@ -45,16 +45,6 @@ def countdown():
   if timer <= 0:
     counter.write("Time's Up", font=font_setup)
     timer_up = True
-
-'''
-    
-      if score > 20:
-        score_writer.write("You win!")
-      else:
-        score_writer.write("You lose!")
-        
-'''
-
   # If not then write Timer: (the amount of time left)
   else:
     counter.write("Timer: " + str(timer), font=font_setup)
@@ -74,10 +64,11 @@ def scoreBox():
         box_turtle.forward(50)
         box_turtle.left(90)
 
-    #Place score_writer where it will write the score
+    # Place score_writer where it will write the score
     score_writer.penup()
     score_writer.goto(300, 332)
 
+    # Hide the turtles
     score_writer.hideturtle()
     box_turtle.hideturtle()
 
@@ -102,9 +93,48 @@ def update_score():
     # print the current score
     score_writer.write(score, font=font_setup)
 
+# Counter setup
+def counter_setup():
+    counter.forward(-200)
+    counter.left(90)
+    counter.forward(300)
+    counter.right(90)
+    counter.hideturtle()
+
+# Start the countown and update it each frame
+def countdown():
+    global timer, timer_up
+    counter.clear()
+    if timer <= 0:
+        counter.write("Time's Up", font=font_setup)
+        timer_up = True
+        manage_leaderboard()
+    else:
+        counter.write("Timer: " + str(timer), font=font_setup)
+        timer -= 1
+        counter.getscreen().ontimer(countdown, counter_interval)
+
+# manages the leaderboard for top 5 scorers
+def manage_leaderboard():
+
+  global score
+  global moewl
+
+  # get the names and scores from the leaderboard file
+  leader_names_list = lb.get_names(leaderboard_file_name)
+  leader_scores_list = lb.get_scores(leaderboard_file_name)
+
+  # show the leaderboard with or without the current player
+  if (len(leader_scores_list) < 5 or score >= leader_scores_list[4]):
+    lb.update_leaderboard(leaderboard_file_name, leader_names_list, leader_scores_list, player_name, score)
+    lb.draw_leaderboard(True, leader_names_list, leader_scores_list, moewl, score)
+
+  else:
+    lb.draw_leaderboard(False, leader_names_list, leader_scores_list, moewl, score)
+
 #----------events-----------
 meowl.onclick(spot_clicked)
-
+counter_setup()
 scoreBox()
 wn = trtl.Screen()
 wn.ontimer(countdown, counter_interval)
