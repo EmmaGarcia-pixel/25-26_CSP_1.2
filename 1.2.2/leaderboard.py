@@ -75,6 +75,9 @@ def update_leaderboard(file_name, leader_names, leader_scores, player_name, play
       leader_names.insert(index, player_name)
 
     # TODO 11: keep both lists at 5 elements only (top 5 players)
+    if (len(leader_names) > 5)
+        leader_names.pop()
+        leader_scores.pop()
 
     # TODO 12: store the latest leaderboard back in the file
 
