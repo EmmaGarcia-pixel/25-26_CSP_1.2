@@ -8,10 +8,10 @@ def tic(num1, num2):
 # Method 2: name it "tac" and it takes one parameter "exp"
 # use a loop to multiply the number 5 by itself "exp" times
 # return that value
-num = 5
 def tac(exp):
+    sum = 5
     for num in range(exp):
-        sum = num * num
+        sum = sum * 5
     return sum
 
 
