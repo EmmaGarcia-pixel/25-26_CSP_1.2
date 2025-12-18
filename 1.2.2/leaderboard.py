@@ -75,18 +75,16 @@ def update_leaderboard(file_name, leader_names, leader_scores, player_name, play
       leader_names.insert(index, player_name)
 
     # TODO 11: keep both lists at 5 elements only (top 5 players)
-    if (len(leader_names) > 5)
+    if (len(leader_names) > 5):
         leader_names.pop()
         leader_scores.pop()
 
     # TODO 12: store the latest leaderboard back in the file
-
-
     leaderboard_file = open(file_name, "w")  # this mode opens the file and erases its contents for a fresh start
 
     # TODO 13 loop through all the leaderboard elements and write them to the the file
-    for   :
-      leaderboard_file.write(leader_names[index] + "," + str(leader_scores[index]) + "\n")
+    for index in range(len(leader_names)):  # note:can use scores list in place of names
+        leaderboard_file.write(leader_names[index] + "," + str(leader_scores[index]) + "\n")
 
     leaderboard_file.close()
 
