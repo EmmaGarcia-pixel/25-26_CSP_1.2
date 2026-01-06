@@ -1,6 +1,5 @@
-'''
-
 import turtle as trtl
+import rand as rnd
 
 apple_image = "apple.gif" # Store the file name of your shape
 ground_height = -200
@@ -11,18 +10,26 @@ wn = trtl.Screen()
 wn.setup(width=1.0, height=1.0)
 wn.addshape(apple_image) # Make the screen aware of the new file
 
-
 wn.bgpic("background.gif")
 apple = trtl.Turtle()
+wn.tracer(False)
 apple.penup()
+
+letters = ["A","B","C","D","E","F","G","H","I", "J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+letters.pop("")
 
 # given a turtle, set that turtle to be shaped by the image file
 def draw_apple(active_apple):
   active_apple.shape(apple_image)
-  #draw_letter("A", active_apple)
+  draw_letter("A", active_apple)
+  wn.update()
 
 def drop_apple():
+  wn.tracer(True)
   apple.goto(apple.xcor(), ground_height)
+  apple.clear()
+  apple.hideturtle()
+  wn.tracer(False)
 
 def draw_letter(letter, active_apple):
   active_apple.color("white")
@@ -36,46 +43,3 @@ wn.onkeypress(drop_apple, "a")
 
 wn.listen()
 trtl.mainloop()
-
-'''
-
-#   a123_apple_1.py
-import turtle as trtl
-
-#-----setup-----
-apple_image = "apple.gif" # Store the file name of your shape
-
-wn = trtl.Screen()
-wn.setup(width=1.0, height=1.0)
-wn.addshape(apple_image) # Make the screen aware of the new file
-
-wn.bgpic("background.gif")
-apple = trtl.Turtle()
-apple.penup()
-drawer = trtl.Turtle()
-drawer.penup()
-
-#-----functions-----
-# given a turtle, set that turtle to be shaped by the image file
-def draw_apple(active_apple):
-  active_apple.shape(apple_image)
-  wn.update()
-
-# This function takes care of font and color.
-def draw_an_A():
-  drawer.color("black")
-  drawer.goto(-10,-25)
-  drawer.pendown()
-  drawer.write("A", font=("Arial", 26, "bold"))
-  wn.update()
-
-# Drop the apple
-  apple.speed(2)
-  apple.goto(0, -500)
-
-wn.onkeypress(draw_an_A, "a")
-
-#-----function calls-----
-draw_apple(apple)
-wn.listen()
-wn.mainloop()
